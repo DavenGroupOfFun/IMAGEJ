@@ -13,7 +13,7 @@ package MTrack2;
 	import ij.plugin.filter.Analyzer;
 	import ij.measure.*;
 
-
+///
 	/**
 		Uses ImageJ's particle analyzer to track the movement of
 		multiple objects through a stack. 
