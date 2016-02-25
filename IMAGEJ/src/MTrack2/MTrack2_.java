@@ -38,7 +38,7 @@ public class MTrack2_ implements PlugInFilter, Measurements  {
 	static boolean 	bShowPaths = false;
 	static boolean 	bShowPathLengths = false;
 	static float   	maxVelocity = 10;
-	static int 	maxColumns=75;
+	static int 	maxColumns=1000;
 	static boolean skipDialogue = false;
 
 	public class particle {
