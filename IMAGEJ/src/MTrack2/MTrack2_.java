@@ -251,7 +251,7 @@ public class MTrack2_ implements PlugInFilter, Measurements  {
 			List bTrack=(ArrayList) iT.next();
 			if (bTrack.size() >= minTrackLength) {
 				if (frameCount <= maxColumns)
-					strHeadings += "\tX" + frameCount + "\tY" + frameCount +"\tFlag" + frameCount;
+					strHeadings += "\tX" + frameCount + "\tY" + frameCount +"\tDX" + frameCount + "\tDY" + frameCount + "\tDR^2" + frameCount;
 				frameCount++;
 			}
 		}
@@ -283,7 +283,7 @@ public class MTrack2_ implements PlugInFilter, Measurements  {
 		// first when we only write to the screen
 		if (!writefile) {
 			IJ.setColumnHeadings(strHeadings);
-
+			
 			for (int j=1; j<=repeat;j++) {
 				int to=j*maxColumns;
 				if (to > frameCount-1)
@@ -294,6 +294,11 @@ public class MTrack2_ implements PlugInFilter, Measurements  {
 					String strLine = "" + (i+1);
 					int trackNr=0;
 					int listTrackNr=0;
+					
+					float prevx=0;
+					float prevy=0;
+					boolean first=true;
+					
 					for (ListIterator iT=theTracks.listIterator(); iT.hasNext();) {
 						trackNr++;
 						List bTrack=(ArrayList) iT.next();
@@ -309,11 +314,20 @@ public class MTrack2_ implements PlugInFilter, Measurements  {
 											flag="*";
 										else
 											flag=" ";
-										strLine+="\t" + aParticle.x + "\t" + aParticle.y + "\t" + flag;
+										strLine+="\t" + aParticle.x + "\t" + aParticle.y;
+										if (first) {strLine += "\t \t \t";}
+										else {
+											float dx = aParticle.x - prevx;
+											float dy = aParticle.y - prevy;
+											float dr2 = aParticle.x*aParticle.x + aParticle.y*aParticle.y;
+											prevx = aParticle.x;
+											prevy = aParticle.y;
+											strLine += "\t" + dx + "\t" + dy + "\t" + dr2;
+										}
 									}
 								}
 								if (!particleFound)
-									strLine+="\t \t \t ";
+									strLine+="\t \t \t \t \t";
 							}
 						}
 					}
